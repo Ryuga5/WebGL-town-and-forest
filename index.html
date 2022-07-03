@@ -58,7 +58,7 @@
 
         //四角形の台座
         var grandtexture = new THREE.TextureLoader()
-        var texture =  grandtexture.load('/model/forrest_ground_01_diff_4k.jpg')
+        var texture =  grandtexture.load('model/forrest_ground_01_diff_4k.jpg')
         var mat = new THREE.MeshPhongMaterial()
         mat.map = texture
         var boxGeometry = new THREE.BoxGeometry(25,5,25) 
@@ -69,7 +69,7 @@
 
         //壁を作る
         var walltexture = new THREE.TextureLoader()
-        var texture =  walltexture.load('/model/sky.jpg')
+        var texture =  walltexture.load('model/sky.jpg')
         var mat = new THREE.MeshPhongMaterial()
         mat.map = texture
 
@@ -80,7 +80,7 @@
         
         // VRMの読み込み
         const loader = new THREE.GLTFLoader();
-        loader.load('/model/Zundamon(Flying Type)_vrm.vrm',
+        loader.load('model/Zundamon(Flying Type)_vrm.vrm',
         (gltf) => {
           THREE.VRM.from(gltf).then((vrm) => {
             vrm.scene.rotation.set(0,15,0)
@@ -101,7 +101,7 @@
          // GLTF形式のモデルデータを読み込む
         const houseloader = new THREE.GLTFLoader();
         // GLTFファイルのパスを指定
-        loader.load('/model/WoodHouse.glb', (gltf) => {
+        loader.load('model/WoodHouse.glb', (gltf) => {
           // 読み込み後に3D空間に追加
           const model = gltf.scene;
           model.position.set(0,-6,0)
@@ -112,7 +112,7 @@
 
         //サボテン
         const cactusloader = new THREE.GLTFLoader();
-        loader.load('/model/Cactus.glb', (gltf) => {
+        loader.load('model/Cactus.glb', (gltf) => {
           const cactusmodel = gltf.scene;
           cactusmodel.scale.set(2,2,2)
           cactusmodel.position.set(-8,-8.3,-3)
@@ -121,7 +121,7 @@
 
          //針葉樹のモデル
          const Spruceloader = new THREE.GLTFLoader();
-        loader.load('/model/Spruce.glb', (gltf) => {
+        loader.load('model/Spruce.glb', (gltf) => {
           const sprucemodel = gltf.scene;
           sprucemodel.scale.set(3,3,3)
           sprucemodel.position.set(8,-8.3,4)
@@ -130,7 +130,7 @@
 
          //木のモデル
          const Treeloader = new THREE.GLTFLoader();
-        loader.load('/model/Tree.glb', (gltf) => {
+        loader.load('model/Tree.glb', (gltf) => {
           const Treemodel = gltf.scene;
           Treemodel.scale.set(3,3,3)
           Treemodel.position.set(-10,-8.3,3)
@@ -139,7 +139,7 @@
 
          //木のモデル2つ目
          const Treeloader2 = new THREE.GLTFLoader();
-        loader.load('/model/Tree.glb', (gltf) => {
+        loader.load('model/Tree.glb', (gltf) => {
           const Treemodel = gltf.scene;
           Treemodel.scale.set(3,3,3)
           Treemodel.position.set(2,-8.3,-7)
@@ -150,7 +150,7 @@
 
         //街の地面
         var Urbantexture = new THREE.TextureLoader()
-        var urtexture =  grandtexture.load('/model/floor_pavement_diff_4k.jpg')
+        var urtexture =  grandtexture.load('model/floor_pavement_diff_4k.jpg')
         var urt = new THREE.MeshPhongMaterial()
         urt.map = urtexture;
 
@@ -162,7 +162,7 @@
 
         //アリシア・ソリッドモデル読み込み
         const Alicialoader = new THREE.GLTFLoader()
-        loader.load('/model/AliciaSolid.vrm',
+        loader.load('model/AliciaSolid.vrm',
         (gltf) => {
           THREE.VRM.from(gltf).then((vrm) => {
             vrm.scene.position.set(5,-13.1,4)
@@ -181,7 +181,7 @@
 
         //ビル画像読み込み
         var textureLoader = new THREE.TextureLoader()
-        var builtexture = textureLoader.load("/model/img_bb.png")
+        var builtexture = textureLoader.load("model/img_bb.png")
         var material = new THREE.MeshPhongMaterial()
         material.map = builtexture
          //ビル１
@@ -198,7 +198,7 @@
 
         //ビル画像2
         var buildingLoader = new THREE.TextureLoader()
-        var builtexture2 = buildingLoader.load("/model/img_bsl.png")
+        var builtexture2 = buildingLoader.load("model/img_bsl.png")
         var material2 = new THREE.MeshPhongMaterial()
         material2.map = builtexture2
         //ビル３
