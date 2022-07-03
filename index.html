@@ -1,0 +1,226 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/three@0.141.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.141.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.141.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/three@0.141.0/examples/js/loaders/FBXLoader.js"></script>
+    <script src="three-vrm.js"></script>
+
+  </head>
+<body>
+ <h1>CG 最終課題</h1>
+ <h4>テーマ　街と森 </h4>                         
+森は山奥にある小屋をイメージして作成し、町はビルが立ち並ぶ都会をイメージして作成しました。
+ <script>
+      // ページの読み込みを待つ
+      window.addEventListener('DOMContentLoaded', init);
+
+      function init() {
+        // サイズを指定
+        const width = 800
+        const height = 600;
+
+        // レンダラーを作成
+        var renderer = new THREE.WebGLRenderer();
+        document.body.appendChild(renderer.domElement);
+        renderer.setSize(width, height);
+        // 背景の色を設定
+        renderer.setClearColor(0x87CEFA);
+
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 70);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera, document.body); 
+        
+        // 平行光源1
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff)
+        directionalLight1.position.set(10, 10, 10)
+        scene.add(directionalLight1);
+
+        // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff)
+        directionalLight2.position.set(-10, -10, 10)
+        scene.add(directionalLight2);
+
+         // グループを作る
+        const group = new THREE.Group()
+        group.position.set(0,-15,0)
+        // 3D空間にグループを追加する
+        scene.add(group);
+
+        //四角形の台座
+        var grandtexture = new THREE.TextureLoader()
+        var texture =  grandtexture.load('forrest_ground_01_diff_4k.jpg')
+        var mat = new THREE.MeshPhongMaterial()
+        mat.map = texture
+        var boxGeometry = new THREE.BoxGeometry(25,5,25) 
+        //テクスチャとジオメトリを付ける
+        var box = new THREE.Mesh(boxGeometry,mat)
+        box.position.set(0,-10.6,0)
+        group.add(box);
+
+        //壁を作る
+        var walltexture = new THREE.TextureLoader()
+        var texture =  walltexture.load('sky.jpg')
+        var mat = new THREE.MeshPhongMaterial()
+        mat.map = texture
+
+        var planeGeometry = new THREE.PlaneGeometry(150,150,150,150)
+        var plane = new THREE.Mesh(planeGeometry,mat)
+        plane.position.set(0,-5.5,-15)
+        scene.add(plane);
+        
+        // VRMの読み込み
+        const loader = new THREE.GLTFLoader();
+        loader.load('Zundamon(Flying Type)_vrm.vrm',
+        (gltf) => {
+          THREE.VRM.from(gltf).then((vrm) => {
+            vrm.scene.rotation.set(0,15,0)
+            vrm.scene.position.set(3,-8,7)
+            vrm.scene.scale.set(2,2,2)
+            //VRMモデルの表情変更
+            vrm.blendShapeProxy.setValue(THREE.VRMSchema.BlendShapePresetName.Joy, 1.0)
+            vrm.blendShapeProxy.setValue(THREE.VRMSchema.BlendShapePresetName.A, 0.95)
+            vrm.blendShapeProxy.setValue(THREE.VRMSchema.BlendShapePresetName.I, 0.85)
+            vrm.blendShapeProxy.update()
+
+           group.add(vrm.scene)
+            });
+          }
+        );
+    
+        //  家のモデル
+         // GLTF形式のモデルデータを読み込む
+        const houseloader = new THREE.GLTFLoader();
+        // GLTFファイルのパスを指定
+        loader.load('WoodHouse.glb', (gltf) => {
+          // 読み込み後に3D空間に追加
+          const model = gltf.scene;
+          model.position.set(0,-6,0)
+          model.rotation.set(0,30,0)
+          model.scale.set(3,3,3)
+          group.add(model)
+        });
+
+        //サボテン
+        const cactusloader = new THREE.GLTFLoader();
+        loader.load('Cactus.glb', (gltf) => {
+          const cactusmodel = gltf.scene;
+          cactusmodel.scale.set(2,2,2)
+          cactusmodel.position.set(-8,-8.3,-3)
+          group.add(cactusmodel)
+        });
+
+         //針葉樹のモデル
+         const Spruceloader = new THREE.GLTFLoader();
+        loader.load('Spruce.glb', (gltf) => {
+          const sprucemodel = gltf.scene;
+          sprucemodel.scale.set(3,3,3)
+          sprucemodel.position.set(8,-8.3,4)
+         group.add(sprucemodel)
+        });
+
+         //木のモデル
+         const Treeloader = new THREE.GLTFLoader();
+        loader.load('Tree.glb', (gltf) => {
+          const Treemodel = gltf.scene;
+          Treemodel.scale.set(3,3,3)
+          Treemodel.position.set(-10,-8.3,3)
+          group.add(Treemodel)
+        });
+
+         //木のモデル2つ目
+         const Treeloader2 = new THREE.GLTFLoader();
+        loader.load('Tree.glb', (gltf) => {
+          const Treemodel = gltf.scene;
+          Treemodel.scale.set(3,3,3)
+          Treemodel.position.set(2,-8.3,-7)
+          group.add(Treemodel)
+        });
+    
+        //ここから街のモデル
+
+        //街の地面
+        var Urbantexture = new THREE.TextureLoader()
+        var urtexture =  grandtexture.load('floor_pavement_diff_4k.jpg')
+        var urt = new THREE.MeshPhongMaterial()
+        urt.map = urtexture;
+
+        var planeGeometry = new THREE.PlaneGeometry(25,25,10,10)
+        var plane = new THREE.Mesh(planeGeometry,urt)
+        plane.rotation.set( -Math.PI/2, 3.15, 0 )
+        plane.position.set(0,-13.2,0)
+        group.add(plane);
+
+        //アリシア・ソリッドモデル読み込み
+        const Alicialoader = new THREE.GLTFLoader()
+        loader.load('AliciaSolid.vrm',
+        (gltf) => {
+          THREE.VRM.from(gltf).then((vrm) => {
+            vrm.scene.position.set(5,-13.1,4)
+            vrm.scene.rotation.set(0,15,-3.14)
+            vrm.scene.scale.set(2,2,2)
+            //VRMの表情を変更する
+            vrm.blendShapeProxy.setValue(THREE.VRMSchema.BlendShapePresetName.Joy, 1.0)
+            vrm.blendShapeProxy.setValue(THREE.VRMSchema.BlendShapePresetName.I, 0.85)
+            vrm.blendShapeProxy.update()
+           
+            group.add(vrm.scene)
+           
+            });
+          }
+        );
+
+        //ビル画像読み込み
+        var textureLoader = new THREE.TextureLoader()
+        var builtexture = textureLoader.load("img_bb.png")
+        var material = new THREE.MeshPhongMaterial()
+        material.map = builtexture
+         //ビル１
+        var building = new THREE.BoxGeometry(4,4,2)
+        var buil = new THREE.Mesh(building,material)
+        buil.position.set(0,-15,0)
+        group.add(buil);
+
+        //ビル２
+        var longbuilding = new THREE.BoxGeometry(3,8,3)
+        var longbuil = new THREE.Mesh(longbuilding,material)
+        longbuil.position.set(-4,-17,0)
+        group.add(longbuil);
+
+        //ビル画像2
+        var buildingLoader = new THREE.TextureLoader()
+        var builtexture2 = buildingLoader.load("img_bsl.png")
+        var material2 = new THREE.MeshPhongMaterial()
+        material2.map = builtexture2
+        //ビル３
+        var bslbuil = new THREE.BoxGeometry(1,8,1)
+        var bsl = new THREE.Mesh(bslbuil,material2)
+        bsl.position.set(-8,-15,3)
+        group.add(bsl);
+
+        //ビル４
+        var bslbuil2 = new THREE.BoxGeometry(2,12,2)
+        var bsl2 = new THREE.Mesh(bslbuil2,material2)
+        bsl2.position.set(4,-15,-6)
+        group.add(bsl2);
+
+       update();
+
+        // 毎フレーム時に実行されるループイベント
+        function update() {
+          requestAnimationFrame(update)
+          renderer.render(scene, camera)
+          group.rotation.z -= 0.003
+        };
+    };
+    </script>
+</body>
